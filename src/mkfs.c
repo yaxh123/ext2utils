@@ -9,8 +9,8 @@
 
 int main(int argc, char *argv[]) {
     int c;
-    int block_size = 1024;  // Default block size
-    int blocks_per_group = 8192;  // Default blocks per group
+    int block_size = 1024;
+    int blocks_per_group = 8192;
     char *volume_label = NULL;
     
     // Parse command line options
@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
         switch (c) {
             case 'b':
                 block_size = atoi(optarg);
-                // Validate block size (must be 1024, 2048, or 4096)
+            
                 if (block_size != 1024 && block_size != 2048 && block_size != 4096) {
                     fprintf(stderr, "Invalid block size. Must be 1024, 2048, or 4096 bytes.\n");
                     return 1;
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
                 break;
             case 'g':
                 blocks_per_group = atoi(optarg);
-                // Validate blocks per group
+            
                 break;
             case 'L':
                 volume_label = optarg;
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
         }
     }
     
-    // Check if device argument is provided
+  
     if (optind >= argc) {
         fprintf(stderr, "Expected device argument\n");
         return 1;
@@ -45,14 +45,14 @@ int main(int argc, char *argv[]) {
     
     char *device = argv[optind];
     
-    // Open the device
+
     int fd = open(device, O_RDWR);
     if (fd < 0) {
         perror("Failed to open device");
         return 1;
     }
     
-    // TODO: Implement format_ext2_fs() function
+
     if (format_ext2_fs(fd, block_size, blocks_per_group, volume_label) != 0) {
         fprintf(stderr, "Failed to format device\n");
         close(fd);
